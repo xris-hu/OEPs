@@ -29,7 +29,7 @@ Users need Approve Token to TokenProxy contract to complete settlement.
 
 ===Order Message Format===
 {| class="wikitable"
-|+order format
+|+
 |-
 |Field
 |Type
