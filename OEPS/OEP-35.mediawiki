@@ -5,7 +5,7 @@
   Type: Standard
   Status: Active
   Created: 2019-01-02
-<source>
+</source>
 
 ==Abstract==
 OEP-35 is a standard protocol for data Token exchange based on ontology DDXF. Any platform or institution that passes the audit can be an exchange.
@@ -93,20 +93,20 @@ Users need Approve Token to TokenProxy contract to complete settlement.
 ====FillOrder====
 <source lang="python">
 def FillOrder(order:Order)
-<source>
+</source>
 Orders can be filled by calling the following methods on the Exchange contract.
 
 ====CancellingOrder====
 <source lang="python">
 def CancellingOrder(order:Order)
-<source>
+</source>
 CancellingOrder cancels the specified order, if success, the order be delete in order list.
 
 ====ExecutingTransaction====
 <source lang="python">
 def ExecutingTransaction(order:Order, proxyId:bytes)
 event ExecutingTransaction(order:order, proxyId:bytes)
-<source>
+</source>
 
 ExecutingTransaction will invoke specific token proxy(<code>proxyId</code>) contract, if success, the taker and maker gets the corresponding token.
 
@@ -114,7 +114,7 @@ ExecutingTransaction will invoke specific token proxy(<code>proxyId</code>) cont
 <source lang="python">
 def RegisterTokenProxy(proxyId:bytearray)
 event RegisterTokenProxy(proxyId:bytearray)
-<source>
+</source>
 <code>proxyId</code> is the TokenProxy contract hash，after register TokenProxy, call the <code>ExecutingTransaction</code> function, it will call the TokenProxy contract's <code>TokenTransferFrom</code> Function
 
 ==Token Proxy==
@@ -123,70 +123,70 @@ event RegisterTokenProxy(proxyId:bytearray)
 <source lang="python">
 def AddToken(contractHash:bytearray)
 event AddToken(contractHash:bytearray)
-<source>
+</source>
 <code>contractHash</code>is the token hash, the tokens traded on the exchange must be registered through this function.
 
 ====RemoveToken====
 <source lang="python">
 def RemoveToken(contractHash:bytearray)
 event RemoveToken(contractHash:bytearray)
-<source>
+</source>
 Token is removed from the exchange, <code>contractHash</code>is the token hash.
 
 ====GetTokens====
 <source lang="python">
 def GetTokens()
-<source>
+</source>
 Returns all token types supported by the exchange.
 
 ====RegisterExchange====
 <source lang="python">
 def RegisterExchange(exchangeId:bytearray)
 event RegisterExchange(exchangeId:bytearray)
-<source>
+</source>
 The exchange needs to register this function to complete the token settlement on the chain.
 
 ====RemoveExchange====
 <source lang="python">
 def RemoveExchange(exchangeId:bytearray)
 event RemoveExchange(exchangeId:bytearray)
-<source>
+</source>
 The Token Proxy owner invoke this function to remove unauthorized exchange.
 
 ====GetAuthorizedExchange====
 <source lang="python">
 def GetAuthorizedExchange()
-<source>
+</source>
 Return all registered exchanges.
 
 ====Approve====
 <source lang="python">
 def approve(from:bytearray, to:bytearray, tokenHash: bytearray, value)
 evnet Approve(from:bytearray, to:bytearray, tokenHash:bytearray, amount:int)
-<source>
+</source>
 The approve allows <code>to</code> account to withdraw from <code>from</code> account multiple times, up to the value amount.If this function is called again it overwrites the current allowance with value.
 
 ====ApproveMulti====
 <source lang="python">
 def ApproveMulti(approveList:bytearray)
-<source>
+</source>
 ApproveMulti can perform multiple approve operations at one time.
 
 ====Allowance====
 <source lang="python">
 def Allowance(owner: bytearray, spender: bytearray, tokenHash: bytearray)
-<source>
+</source>
 Returns the amount which spender is still allowed to withdraw from owner
 
 ====TokenTransferFrom====
 <source lang="python">
 def TokenTransferFrom(order:Order)
 evnet TokenTransferFrom(order:Order)
-<source>
+</source>
 TokenTransferFrom will complete the token settlement operation between maker and taker according to the information of the order.
 
 ====TokenTransferFromMulti====
 <source lang="python">
 def TokenTransferFromMulti(transferList:bytearray)
-<source>
+</source>
 TokenTransferFromMulti can perform multiple TokenTransferFrom operations at one time.
