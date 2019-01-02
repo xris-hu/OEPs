@@ -169,8 +169,8 @@ Return all registered exchanges.
 
 ====Approve====
 <source lang="python">
-def approve(from:bytearray, to:bytearray, tokenHash: bytearray, value)
-evnet Approve(from:bytearray, to:bytearray, tokenHash:bytearray, amount:int)
+def approve(from:bytearray, to:bytearray, tokenHash: bytearray, value:int)
+evnet Approve(from:bytearray, to:bytearray, tokenHash:bytearray, value:int)
 </source>
 The approve allows <code>to</code> account to withdraw from <code>from</code> account multiple times, up to the value amount.If this function is called again it overwrites the current allowance with value.
 
