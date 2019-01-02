@@ -1,11 +1,11 @@
-<source lang="golang">
+<source lang="pyton">
   OEP: 35
   Title: DDXF token exchange protocol
-  Author: huguanjun<guanjunhu007@gmail.com>, tanyuan<tanyuan666@gmail.com>
+  Author: huguanjun<guanjunhu007@gmail.com>, tanyuan <tanyuan666@gmail.com>
   Type: Standard
   Status: Active
   Created: 2019-01-02
-</source>
+<source>
 
 ==Abstract==
 OEP-35 is a standard protocol for data Token exchange based on ontology DDXF. Any platform or institution that passes the audit can be an exchange.
@@ -90,136 +90,103 @@ Users need Approve Token to TokenProxy contract to complete settlement.
 
 ===Method===
 ====name====
-<pre>
+====FillOrder====
+<source lang="python">
 def FillOrder(order:Order)
-</pre>
+<source>
 Orders can be filled by calling the following methods on the Exchange contract.
 
 ====CancellingOrder====
-<pre>
+<source lang="python">
 def CancellingOrder(order:Order)
-</pre>
+<source>
 CancellingOrder cancels the specified order, if success, the order be delete in order list.
 
 ====ExecutingTransaction====
-<pre>
+<source lang="python">
 def ExecutingTransaction(order:Order, proxyId:bytes)
-</pre>
+event ExecutingTransaction(order:order, proxyId:bytes)
+<source>
 
 ExecutingTransaction will invoke specific token proxy(<code>proxyId</code>) contract, if success, the taker and maker gets the corresponding token.
 
 ====RegisterTokenProxy====
-<pre>
+<source lang="python">
 def RegisterTokenProxy(proxyId:bytearray)
-</pre>
+event RegisterTokenProxy(proxyId:bytearray)
+<source>
 <code>proxyId</code> is the TokenProxy contract hash，after register TokenProxy, call the <code>ExecutingTransaction</code> function, it will call the TokenProxy contract's <code>TokenTransferFrom</code> Function
-
-===Event===
-====ExecutingTransaction====
-<pre>
-ExecutingTransaction(order:order, proxyId:bytes)
-</pre>
-
-====RegisterTokenProxy====
-<pre>
-RegisterTokenProxy(proxyId:bytearray)
-</pre>
 
 ==Token Proxy==
 ===Method===
 ====AddToken====
-<pre>
+<source lang="python">
 def AddToken(contractHash:bytearray)
-</pre>
+event AddToken(contractHash:bytearray)
+<source>
 <code>contractHash</code>is the token hash, the tokens traded on the exchange must be registered through this function.
 
 ====RemoveToken====
-<pre>
+<source lang="python">
 def RemoveToken(contractHash:bytearray)
-</pre>
+event RemoveToken(contractHash:bytearray)
+<source>
 Token is removed from the exchange, <code>contractHash</code>is the token hash.
 
 ====GetTokens====
-<pre>
+<source lang="python">
 def GetTokens()
-</pre>
+<source>
 Returns all token types supported by the exchange.
 
 ====RegisterExchange====
-<pre>
+<source lang="python">
 def RegisterExchange(exchangeId:bytearray)
-</pre>
+event RegisterExchange(exchangeId:bytearray)
+<source>
 The exchange needs to register this function to complete the token settlement on the chain.
 
 ====RemoveExchange====
-<pre>
+<source lang="python">
 def RemoveExchange(exchangeId:bytearray)
-</pre>
+event RemoveExchange(exchangeId:bytearray)
+<source>
 The Token Proxy owner invoke this function to remove unauthorized exchange.
 
 ====GetAuthorizedExchange====
-<pre>
+<source lang="python">
 def GetAuthorizedExchange()
-</pre>
+<source>
 Return all registered exchanges.
 
 ====Approve====
-<pre>
+<source lang="python">
 def approve(from:bytearray, to:bytearray, tokenHash: bytearray, value)
-</pre>
+evnet Approve(from:bytearray, to:bytearray, tokenHash:bytearray, amount:int)
+<source>
 The approve allows <code>to</code> account to withdraw from <code>from</code> account multiple times, up to the value amount.If this function is called again it overwrites the current allowance with value.
 
 ====ApproveMulti====
-<pre>
+<source lang="python">
 def ApproveMulti(approveList:bytearray)
-</pre>
+<source>
 ApproveMulti can perform multiple approve operations at one time.
 
 ====Allowance====
-<pre>
+<source lang="python">
 def Allowance(owner: bytearray, spender: bytearray, tokenHash: bytearray)
-</pre>
+<source>
 Returns the amount which spender is still allowed to withdraw from owner
 
 ====TokenTransferFrom====
-<pre>
+<source lang="python">
 def TokenTransferFrom(order:Order)
-</pre>
+evnet TokenTransferFrom(order:Order)
+<source>
 TokenTransferFrom will complete the token settlement operation between maker and taker according to the information of the order.
 
 ====TokenTransferFromMulti====
-<pre>
+<source lang="python">
 def TokenTransferFromMulti(transferList:bytearray)
-</pre>
+<source>
 TokenTransferFromMulti can perform multiple TokenTransferFrom operations at one time.
-
-===Event===
-====AddToken====
-<pre>
-AddToken(contractHash:bytearray)
-</pre>
-
-====RemoveToken====
-<pre>
-RemoveToken(contractHash:bytearray)
-</pre>
-
-====RegisterExchange====
-<pre>
-RegisterExchange(exchangeId:bytearray)
-</pre>
-
-====RemoveExchange====
-<pre>
-RemoveExchange(exchangeId:bytearray)
-</pre>
-
-====Approve====
-<pre>
-Approve(from:bytearray, to:bytearray, tokenHash:bytearray, amount:int)
-</pre>
-
-====TokenTransferFrom====
-<pre>
-TokenTransferFrom(order:Order)
-</pre>
