@@ -1,7 +1,7 @@
 <pre>
   OEP: 35
   Title: DDXF token exchange protocol
-  Author: huguanjun<guanjunhu007@gmail.com>, tanyuan <tanyuan666@gmail.com>
+  Author: huguanjun<guanjunhu007@gmail.com>, tanyuan<tanyuan666@gmail.com>
   Type: Standard
   Status: Active
   Created: 2019-01-02
