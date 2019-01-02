@@ -5,7 +5,7 @@
   Type: Standard
   Status: Active
   Created: 2019-01-02
-</pre>
+<source lang="golang">
 
 ==Abstract==
 OEP-35 is a standard protocol for data Token exchange based on ontology DDXF. Any platform or institution that passes the audit can be an exchange.
