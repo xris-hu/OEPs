@@ -1,0 +1,225 @@
+<pre>
+  OEP: 35
+  Title: DDXF token exchange protocol
+  Author: huguanjun<guanjunhu007@gmail.com>, tanyuan <tanyuan666@gmail.com>
+  Type: Standard
+  Status: Active
+  Created: 2019-01-02
+</pre>
+
+==Abstract==
+OEP-35 is a standard protocol for data Token exchange based on ontology DDXF. Any platform or institution that passes the audit can be an exchange.
+
+==Motivation==
+The current centralized exchange lacks transparency, and the circulation of tokens faces too many restrictions, transaction costs are high, and security is not guaranteed. This agreement is aimed at solving the current problem. Based on this agreement, market participants choose their own exchanges and exchange data tokens themselves to achieve more efficient data and token circulation.
+
+==Architecture==
+According to the protocol architecture， we divides the exchange platform into two component<code>Exchange</code> and <code> TokenProxy</code>
+
+Exchange is responsible for combining Maker's and Taker's orders, and sending orders to TokenProxy to provide funciton such as fillorer, cancelorder,etc. 
+Exchange can be integrated through centralization or smart contract.
+
+The TokenProxy is to decouple complex order matching and Token settlement on the blockchain.
+TokenProxy provides RegisterExchangeRemoveExchange, AddToken, RemoveToken for Exchange, and is responsible for the settlement of <code>OEP-4</code>, <code>OEP-5</code>, <code>OEP-8</code> and other types of tokens.
+Users need Approve Token to TokenProxy contract to complete settlement.
+
+[[Image:https://ws2.sinaimg.cn/large/006tNbRwgy1fyldbcopdkj30mn0gr0td.jpg]]
+
+==Exchange==
+
+===Order Message Format===
+{| class="wikitable"
+|+order format
+|-
+|Field
+|Type
+|Description
+|-
+|version
+|int
+|exchange order version
+|-
+|makerAddress
+|address
+|maker wallet address
+|-
+|makerAssetAmount
+|int
+|Amount of makerAsset being offered by maker. 
+|-
+|makerTokenHash
+|bytes
+|the token hash of offered by maker
+|-
+|takerAddress
+|address
+|taker wallet address
+|-
+|takerAssetAmount
+|int
+|Amount of takerAsset being bid on by maker. 
+|-
+|takerTokenHash
+|bytes
+|the token hash of offered by maker
+|-
+|makerFee
+|int
+|Amount of fee paid to feeReceiver by maker
+|-
+|takerFee
+|int
+|Amount of fee paid to feeReceiver by taker
+|-
+|feeTokenHash
+|bytes
+|Exchange-charged token hash
+|-
+|version
+|int
+|exchange order version
+|-
+|feeReceiver
+|bytes
+|
+|-
+|expireTime
+|int
+|order expire time
+|}
+
+===Method===
+====name====
+<pre>
+def FillOrder(order:Order)
+</pre>
+Orders can be filled by calling the following methods on the Exchange contract.
+
+====CancellingOrder====
+<pre>
+def CancellingOrder(order:Order)
+</pre>
+CancellingOrder cancels the specified order, if success, the order be delete in order list.
+
+====ExecutingTransaction====
+<pre>
+def ExecutingTransaction(order:Order, proxyId:bytes)
+</pre>
+
+ExecutingTransaction will invoke specific token proxy(<code>proxyId</code>) contract, if success, the taker and maker gets the corresponding token.
+
+====RegisterTokenProxy====
+<pre>
+def RegisterTokenProxy(proxyId:bytearray)
+</pre>
+<code>proxyId</code> is the TokenProxy contract hash，after register TokenProxy, call the <code>ExecutingTransaction</code> function, it will call the TokenProxy contract's <code>TokenTransferFrom</code> Function
+
+===Event===
+====ExecutingTransaction====
+<pre>
+ExecutingTransaction(order:order, proxyId:bytes)
+</pre>
+
+====RegisterTokenProxy====
+<pre>
+RegisterTokenProxy(proxyId:bytearray)
+</pre>
+
+==Token Proxy==
+===Method===
+====AddToken====
+<pre>
+def AddToken(contractHash:bytearray)
+</pre>
+<code>contractHash</code>is the token hash, the tokens traded on the exchange must be registered through this function.
+
+====RemoveToken====
+<pre>
+def RemoveToken(contractHash:bytearray)
+</pre>
+Token is removed from the exchange, <code>contractHash</code>is the token hash.
+
+====GetTokens====
+<pre>
+def GetTokens()
+</pre>
+Returns all token types supported by the exchange.
+
+====RegisterExchange====
+<pre>
+def RegisterExchange(exchangeId:bytearray)
+</pre>
+The exchange needs to register this function to complete the token settlement on the chain.
+
+====RemoveExchange====
+<pre>
+def RemoveExchange(exchangeId:bytearray)
+</pre>
+The Token Proxy owner invoke this function to remove unauthorized exchange.
+
+====GetAuthorizedExchange====
+<pre>
+def GetAuthorizedExchange()
+</pre>
+Return all registered exchanges.
+
+====Approve====
+<pre>
+def approve(from:bytearray, to:bytearray, tokenHash: bytearray, value)
+</pre>
+The approve allows <code>to</code> account to withdraw from <code>from</code> account multiple times, up to the value amount.If this function is called again it overwrites the current allowance with value.
+
+====ApproveMulti====
+<pre>
+def ApproveMulti(approveList:bytearray)
+</pre>
+ApproveMulti can perform multiple approve operations at one time.
+
+====Allowance====
+<pre>
+def Allowance(owner: bytearray, spender: bytearray, tokenHash: bytearray)
+</pre>
+Returns the amount which spender is still allowed to withdraw from owner
+
+====TokenTransferFrom====
+<pre>
+def TokenTransferFrom(order:Order)
+</pre>
+TokenTransferFrom will complete the token settlement operation between maker and taker according to the information of the order.
+
+====TokenTransferFromMulti====
+<pre>
+def TokenTransferFromMulti(transferList:bytearray)
+</pre>
+TokenTransferFromMulti can perform multiple TokenTransferFrom operations at one time.
+
+===Event===
+====AddToken====
+<pre>
+AddToken(contractHash:bytearray)
+</pre>
+
+====RemoveToken====
+<pre>
+RemoveToken(contractHash:bytearray)
+</pre>
+
+====RegisterExchange====
+<pre>
+RegisterExchange(exchangeId:bytearray)
+</pre>
+
+====RemoveExchange====
+<pre>
+RemoveExchange(exchangeId:bytearray)
+</pre>
+
+====Approve====
+<pre>
+Approve(from:bytearray, to:bytearray, tokenHash:bytearray, amount:int)
+</pre>
+
+====TokenTransferFrom====
+<pre>
+TokenTransferFrom(order:Order)
+</pre>
