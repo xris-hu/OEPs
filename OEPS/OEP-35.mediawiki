@@ -16,12 +16,12 @@ The current centralized exchange lacks transparency, and the circulation of toke
 ==Architecture==
 According to the protocol architecture， we divides the exchange platform into two component<code>Exchange</code> and <code> TokenProxy</code>
 
-Exchange is responsible for combining Maker's and Taker's orders, and sending orders to TokenProxy to provide funciton such as fillorer, cancelorder,etc. 
-Exchange can be integrated through centralization or smart contract.
+'''Exchange''' is responsible for combining Maker's and Taker's orders, and sending orders to TokenProxy to provide funciton such as fillorer, cancelorder,etc. Exchange can be integrated through centralization or smart contract,Any institution can apply to become the exchange, if approved，the maker and taker can send trading orders to the exchange platform,after the exchange combines the maker’s and taker’s orders, it will send the transaction to Token Proxy smart contract.
 
-The TokenProxy is to decouple complex order matching and Token settlement on the blockchain.
-TokenProxy provides RegisterExchangeRemoveExchange, AddToken, RemoveToken for Exchange, and is responsible for the settlement of <code>OEP-4</code>, <code>OEP-5</code>, <code>OEP-8</code> and other types of tokens.
+'''TokenProxy''' is designed to decouple complex order matching and Token settlement on the blockchain.
+TokenProxy provides like RegisterExchangeRemoveExchange, AddToken, RemoveToken function, and is responsible for the settlement of <code>OEP-4</code>, <code>OEP-5</code>, <code>OEP-8</code> and other types of tokens.
 Users need Approve Token to TokenProxy contract to complete settlement.
+
 
 [[Image:https://ws2.sinaimg.cn/large/006tNbRwgy1fyldbcopdkj30mn0gr0td.jpg]]
 
@@ -115,8 +115,8 @@ CancellingOrder cancels the specified order, if success, the order be delete in 
 def ExecutingTransaction(order:Order, proxyId:bytes)
 event ExecutingTransaction(order:order, proxyId:bytes)
 </source>
-
-ExecutingTransaction will invoke specific token proxy(<code>proxyId</code>) contract, if success, the taker and maker gets the corresponding token.
+ExecutingTransaction will invoke specific token proxy(<code>proxyId</code>) contract, if success, the tokenproxy contract will automatically place the maker and taker's order.
+If successful, will push <code>ExecutingTransaction</code> event.
 
 ====RegisterTokenProxy====
 <source lang="python">
@@ -124,6 +124,7 @@ def RegisterTokenProxy(proxyId:bytearray)
 event RegisterTokenProxy(proxyId:bytearray)
 </source>
 <code>proxyId</code> is the TokenProxy contract hash，after register TokenProxy, call the <code>ExecutingTransaction</code> function, it will call the TokenProxy contract's <code>TokenTransferFrom</code> Function
+If successful, will push <code>RegisterTokenProxy</code> event.
 
 ==Token Proxy==
 ===Method===
@@ -133,19 +134,22 @@ def AddToken(contractHash:bytearray)
 event AddToken(contractHash:bytearray)
 </source>
 <code>contractHash</code>is the token hash, the tokens traded on the exchange must be registered through this function.
+The exchanger will support <code>ONT</code> and <code>ONG</code> assets by default.
+If successful, will push <code>AddToken</code> event.
 
 ====RemoveToken====
 <source lang="python">
 def RemoveToken(contractHash:bytearray)
 event RemoveToken(contractHash:bytearray)
 </source>
-Token is removed from the exchange, <code>contractHash</code>is the token hash.
+Tokens that no longer support trading will be removed, <code>contractHash</code> is the token hash.
+If successful, will push <code>RemoveToken</code> event.
 
 ====GetTokens====
 <source lang="python">
 def GetTokens()
 </source>
-Returns all token types supported by the exchange.
+Returns all token types supported by token proxy contract.
 
 ====RegisterExchange====
 <source lang="python">
@@ -153,26 +157,29 @@ def RegisterExchange(exchangeId:bytearray)
 event RegisterExchange(exchangeId:bytearray)
 </source>
 The exchange needs to register this function to complete the token settlement on the chain.
+If successful, will push <code>RegisterExchange</code> event.
 
 ====RemoveExchange====
 <source lang="python">
 def RemoveExchange(exchangeId:bytearray)
 event RemoveExchange(exchangeId:bytearray)
 </source>
-The Token Proxy owner invoke this function to remove unauthorized exchange.
+RemoveExchange will remove unauthorized exchange, all the orders invoked by the exchange will be failed.
+If successful, will push <code>RemoveExchange</code> event.
 
 ====GetAuthorizedExchange====
 <source lang="python">
 def GetAuthorizedExchange()
 </source>
-Return all registered exchanges.
+Return all trusted exchange platforms
 
 ====Approve====
 <source lang="python">
 def approve(from:bytearray, to:bytearray, tokenHash: bytearray, value:int)
-evnet Approve(from:bytearray, to:bytearray, tokenHash:bytearray, value:int)
+event Approve(from:bytearray, to:bytearray, tokenHash:bytearray, value:int)
 </source>
 The approve allows <code>to</code> account to withdraw from <code>from</code> account multiple times, up to the value amount.If this function is called again it overwrites the current allowance with value.
+If successful, will push <code>Approve</code> event.
 
 ====ApproveMulti====
 <source lang="python">
@@ -189,9 +196,10 @@ Returns the amount which spender is still allowed to withdraw from owner
 ====TokenTransferFrom====
 <source lang="python">
 def TokenTransferFrom(order:Order)
-evnet TokenTransferFrom(order:Order)
+event TokenTransferFrom(order:Order)
 </source>
 TokenTransferFrom will complete the token settlement operation between maker and taker according to the information of the order.
+If successful, will push <code>TokenTransferFrom</code> event.
 
 ====TokenTransferFromMulti====
 <source lang="python">
