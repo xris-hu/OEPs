@@ -8,7 +8,7 @@
 </source>
 
 ==Abstract==
-OEP-35 is a standard protocol for data Token exchange based on ontology DDXF. Any platform or institution that passes the audit can be an exchange.
+OEP-35 is a standard cryto token exchange protocol base on decentralize exchange solution. exchange matching the off-chain orders and relay on ontology blockchain. ontology provide token proxy smart contract service for token settlement, Any platform or institution can apply be an exchange.
 
 ==Motivation==
 The current centralized exchange lacks transparency, and the circulation of tokens faces too many restrictions, transaction costs are high, and security is not guaranteed. This agreement is aimed at solving the current problem. Based on this agreement, market participants choose their own exchanges and exchange data tokens themselves to achieve more efficient data and token circulation.
