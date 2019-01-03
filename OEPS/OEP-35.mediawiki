@@ -14,14 +14,20 @@ OEP-35 is a standard cryto token exchange protocol base on decentralize exchange
 The current centralized exchange lacks transparency, and the circulation of tokens faces too many restrictions, transaction costs are high, and security is not guaranteed. This agreement is aimed at solving the current problem. Based on this agreement, market participants choose their own exchanges and exchange data tokens themselves to achieve more efficient data and token circulation.
 
 ==Architecture==
-According to the protocol architecture， we divides the exchange platform into two component<code>Exchange</code> and <code> TokenProxy</code>
+According to the protocol architecture， we divides the exchange platform into two component<code>Exchange</code> and <code> TokenProxy</code>, it's a modular system.
 
-'''Exchange''' is responsible for combining Maker's and Taker's orders, and sending orders to TokenProxy to provide funciton such as fillorer, cancelorder,etc. Exchange can be integrated through centralization or smart contract,Any institution can apply to become the exchange, if approved，the maker and taker can send trading orders to the exchange platform,after the exchange combines the maker’s and taker’s orders, it will send the transaction to Token Proxy smart contract.
+'''Exchange''' is responsible for combining Maker's and Taker's orders, and sending orders to TokenProxy smart contrat.
+<code>Exchange</code> provide interface such as <code>fillorer</code>, <code>CancellingOrder</code>,<code>ExecutingTransaction</code>for traders. 
 
-'''TokenProxy''' is designed to decouple complex order matching and Token settlement on the blockchain.
-TokenProxy provides like RegisterExchangeRemoveExchange, AddToken, RemoveToken function, and is responsible for the settlement of <code>OEP-4</code>, <code>OEP-5</code>, <code>OEP-8</code> and other types of tokens.
-Users need Approve Token to TokenProxy contract to complete settlement.
+<code>Exchange</code> can be implemented through off-chain application or smart contract, Any institution can apply to become the exchange, if approved，the maker and taker can send trading orders to the exchange platform,after the exchange matching the maker’s and taker’s orders, it will send the transaction to Token Proxy smart contract, finally the transaction is completed on the blockchain.
 
+'''TokenProxy''' is designed to decouple orders matching and token settlement on the blockchain，because the logic of order matching is too complicated, it allows each component of the system to be upgraded separately.
+
+TokenProxy provides like <code>RegisterExchangeRemoveExchange</code>, <code>AddToken</code>, <code>RemoveToken</code> interface.
+
+<code>TokenProxy</code> main task is responsible for the settlement of cryto token, like <code>OEP-4</code>, <code>OEP-5</code>, <code>OEP-8</code> and other types of tokens.
+
+It should be noted that maker and taker need to approve token to TokenProxy smart contract, otherwise the contract can't transfer your token.
 
 [[Image:https://ws2.sinaimg.cn/large/006tNbRwgy1fyldbcopdkj30mn0gr0td.jpg]]
 
