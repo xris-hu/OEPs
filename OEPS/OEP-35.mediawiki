@@ -31,7 +31,7 @@ It should be noted that maker and taker need to approve token to TokenProxy smar
 
 [[Image:https://ws2.sinaimg.cn/large/006tNbRwgy1fyldbcopdkj30mn0gr0td.jpg]]
 
-== Related OEPs Token standard==
+== Related token standard==
 Bellow protocol is ontology OEPs token wiki.
 
 OEP-4 protocol, non fungible token protocol:https://github.com/ontio/OEPs/blob/master/OEPS/OEP-4.mediawiki
