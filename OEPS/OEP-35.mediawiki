@@ -36,7 +36,7 @@ Bellow protocol is ontology OEPs token wiki.
 
 OEP-4 protocol, non fungible token protocol:https://github.com/ontio/OEPs/blob/master/OEPS/OEP-4.mediawiki
 
-OEP-5 protocol, fungile token protocol:https://github.com/ontio/OEPs/pull/10
+OEP-5 protocol, fungile token protocol:https://github.com/ontio/OEPs/blob/master/OEPS/OEP-5.mediawiki
 
 OEP-8 protocol, crypto item protocol :https://github.com/ontio/OEPs/blob/master/OEPS/OEP-8.mediawiki
 
