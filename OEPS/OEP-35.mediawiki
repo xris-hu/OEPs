@@ -90,10 +90,6 @@ OEP-8 protocol, crypto item protocol :https://github.com/ontio/OEPs/blob/master/
 |bytes
 |Exchange-charged token hash
 |-
-|version
-|int
-|exchange order version
-|-
 |feeReceiver
 |bytes
 |exchange fee receiver
