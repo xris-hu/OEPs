@@ -29,7 +29,7 @@ TokenProxy provides like <code>RegisterExchangeRemoveExchange</code>, <code>AddT
 
 It should be noted that maker and taker need to approve token to TokenProxy smart contract, otherwise the contract can't transfer your token.
 
-[[Image:https://ws2.sinaimg.cn/large/006tNc79gy1fyucla3yurj30mn0gzt9h.jpg]]
+[[Image:https://ws4.sinaimg.cn/large/006tNc79gy1fyzbzs2itbj30mi0gz3zc.jpg]]
 
 == Related token standard==
 Bellow protocol is ontology OEPs token wiki.
