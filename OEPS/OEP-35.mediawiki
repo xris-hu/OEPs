@@ -183,12 +183,6 @@ event Approve(from:bytearray, to:bytearray, tokenHash:bytearray, value:int)
 The approve allows <code>to</code> account to withdraw from <code>from</code> account multiple times, up to the value amount.If this function is called again it overwrites the current allowance with value.
 If successful, will push <code>Approve</code> event.
 
-====ApproveMulti====
-<source lang="python">
-def ApproveMulti(approveList:bytearray)
-</source>
-ApproveMulti can perform multiple approve operations at one time.
-
 ====Allowance====
 <source lang="python">
 def Allowance(owner: bytearray, spender: bytearray, tokenHash: bytearray)
